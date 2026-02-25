@@ -14,8 +14,7 @@ from ledger.domain.ledger.events import LedgerCreated, LedgerConfirmed, LedgerFa
 from ledger.domain.ledger.exceptions import (
     LedgerAlreadyConfirmed,
     LedgerAlreadyFailed,
-    LedgerCannotBeConfirmed,
-    LedgerCannotBeFailed,
+    LedgerCannotTransition,
 )
 
 
@@ -81,9 +80,10 @@ class Ledger(Entity, AggregateRoot):
             raise LedgerAlreadyConfirmed(ledger_id=self.id.value)
 
         if self.status != LedgerStatus.PENDING:
-            raise LedgerCannotBeConfirmed(
+            raise LedgerCannotTransition(
                 ledger_id=self.id.value,
-                status=self.status,
+                from_status=self.status,
+                to_status=LedgerStatus.CONFIRMED,
             )
 
         self.status = LedgerStatus.CONFIRMED
@@ -106,9 +106,10 @@ class Ledger(Entity, AggregateRoot):
             raise LedgerAlreadyFailed(ledger_id=self.id.value)
 
         if self.status != LedgerStatus.PENDING:
-            raise LedgerCannotBeFailed(
+            raise LedgerCannotTransition(
                 ledger_id=self.id.value,
-                status=self.status,
+                from_status=self.status,
+                to_status=LedgerStatus.FAILED,
             )
 
         self.status = LedgerStatus.FAILED
