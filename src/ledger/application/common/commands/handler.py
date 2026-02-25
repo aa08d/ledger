@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from .command import Command
 
 
-class CommandHandler[CResult](ABC):
+class CommandHandler[CR](ABC):
     @abstractmethod
-    async def __call__(self, command: Command) -> CResult:
+    async def __call__(self, command: Command) -> CR:
         raise NotImplementedError
