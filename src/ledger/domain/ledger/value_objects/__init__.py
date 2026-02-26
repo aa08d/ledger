@@ -2,7 +2,7 @@ from .ledger_id import LedgerID
 from .wallet_id import WalletID
 from .transaction_id import TransactionID
 from .type import LedgerType
-from .amount import Amount
+from .amount import Amount, CurrencyCode
 from .status import LedgerStatus
 from .reason import LedgerReason
 
@@ -13,6 +13,7 @@ __all__ = (
     'TransactionID',
     'LedgerType',
     'Amount',
+    'CurrencyCode',
     'LedgerStatus',
     'LedgerReason',
 )

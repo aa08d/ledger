@@ -1,17 +1,13 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
+from ledger.domain.common.events import Event
 from ledger.application.ledger.dto import OutboxMessageDTO
 
 
 class Outbox(ABC):
     @abstractmethod
-    async def append(self,
-        event_type: str,
-        payload: dict,
-        aggregate_id: UUID | None = None,
-        aggregate_type: str | None = None,
-    ) -> None:
+    async def append(self, events: list[Event]) -> None:
         raise NotImplementedError
 
     @abstractmethod

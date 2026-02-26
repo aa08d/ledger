@@ -11,7 +11,7 @@ Request = Command | Query
 RequestHandler = CommandHandler | QueryHandler
 
 
-class Meditor(ABC):
+class Mediator(ABC):
     def __init__(self) -> None:
         self._request_handlers = {}
         self._event_handlers = {}
