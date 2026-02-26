@@ -101,7 +101,7 @@ class Ledger(Entity, AggregateRoot):
             )
         )
 
-    def fail(self) -> None:
+    def fail(self, reason: LedgerReason) -> None:
         if self.status == LedgerStatus.FAILED:
             raise LedgerAlreadyFailed(ledger_id=self.id.value)
 
@@ -113,6 +113,7 @@ class Ledger(Entity, AggregateRoot):
             )
 
         self.status = LedgerStatus.FAILED
+        self.reason = reason
 
         self.raise_event(
             LedgerFailed(

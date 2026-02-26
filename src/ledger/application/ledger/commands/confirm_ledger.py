@@ -16,11 +16,11 @@ class ConfirmLedgerCommand(Command):
 
 class ConfirmLedgerHandler(CommandHandler[None]):
     def __init__(
-            self,
-            repository: LedgerRepository,
-            mediator: Mediator,
-            outbox: Outbox,
-            uow: UnitOfWork,
+        self,
+        repository: LedgerRepository,
+        mediator: Mediator,
+        outbox: Outbox,
+        uow: UnitOfWork,
     ) -> None:
         self._repository = repository
         self._mediator = mediator
@@ -29,11 +29,11 @@ class ConfirmLedgerHandler(CommandHandler[None]):
 
     async def __call__(self, command: ConfirmLedgerCommand) -> None:
         ledger = await self._repository.acquire_by_id(
-            ledger_id=LedgerID(command.ledger_id),
+            LedgerID(command.ledger_id),
         )
 
         if ledger is None:
-            raise LedgerNotFoundException(ledger_id=command.ledger_id)
+            raise LedgerNotFoundException(command.ledger_id)
 
         ledger.confirm()
         events = ledger.pull_events()
