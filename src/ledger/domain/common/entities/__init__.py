@@ -1,5 +1,5 @@
 from .entity import Entity
-from .aggregate__root import AggregateRoot
+from .aggregate_root import AggregateRoot
 
 
 __all__ = (

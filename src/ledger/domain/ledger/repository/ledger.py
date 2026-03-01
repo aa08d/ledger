@@ -6,7 +6,7 @@ from ledger.domain.ledger.entities import Ledger
 
 class LedgerRepository(ABC):
     @abstractmethod
-    async def acquire_by_id(self, ledger_id: LedgerID) -> Ledger:
+    async def acquire_by_id(self, ledger_id: LedgerID) -> Ledger | None:
         raise NotImplementedError
 
     @abstractmethod

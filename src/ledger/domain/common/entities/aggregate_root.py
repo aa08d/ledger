@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import List
 
-from transaction.domain.common.events import Event
+from ledger.domain.common.events import Event
 
 
 class AggregateRoot(ABC):
