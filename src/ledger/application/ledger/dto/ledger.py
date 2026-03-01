@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from uuid import UUID
 
 from ledger.application.common.dto import DTO
+from ledger.application.common.pagination import PaginatedItemsDTO
 from ledger.domain.ledger.value_objects import LedgerType, LedgerStatus, CurrencyCode
 
 
@@ -16,3 +17,6 @@ class LedgerDTO(DTO):
     status: LedgerStatus
     code: int
     details: str
+
+
+LedgersDTO = PaginatedItemsDTO[LedgerDTO]

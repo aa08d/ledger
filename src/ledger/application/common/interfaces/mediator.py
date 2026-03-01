@@ -27,9 +27,7 @@ class Mediator(ABC):
             self._event_handlers.setdefault(message, []).append(handler)
 
     @abstractmethod
-    async def send(self, request: Request) -> RR:
-        raise NotImplementedError
+    async def send(self, request: Request) -> RR: ...
 
     @abstractmethod
-    async def publish(self, events: Event | list[Event]) -> None:
-        raise NotImplementedError
+    async def publish(self, events: Event | list[Event]) -> None: ...

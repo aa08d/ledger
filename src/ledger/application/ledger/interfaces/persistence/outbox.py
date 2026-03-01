@@ -7,13 +7,10 @@ from ledger.application.ledger.dto import OutboxMessageDTO
 
 class Outbox(ABC):
     @abstractmethod
-    async def append(self, events: list[Event]) -> None:
-        raise NotImplementedError
+    async def append(self, events: list[Event]) -> None: ...
 
     @abstractmethod
-    async def next(self, limit: int) -> list[OutboxMessageDTO]:
-        raise NotImplementedError
+    async def next(self, limit: int) -> list[OutboxMessageDTO]: ...
 
     @abstractmethod
-    async def done(self, messages: list[UUID]) -> None:
-        raise NotImplementedError
+    async def done(self, messages: list[UUID]) -> None: ...

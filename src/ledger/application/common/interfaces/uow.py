@@ -1,9 +1,10 @@
-from typing import Protocol
+from abc import ABC, abstractmethod
 
 
-class UnitOfWork(Protocol):
-    async def commit(self) -> None:
-        raise NotImplementedError
+class UnitOfWork(ABC):
+    @abstractmethod
+    async def commit(self) -> None: ...
 
-    async def rollback(self) -> None:
-        raise NotImplementedError
+    @abstractmethod
+    async def rollback(self) -> None: ...
+

@@ -5,5 +5,4 @@ from .event import Event
 
 class EventHandler[ER](ABC):
     @abstractmethod
-    async def __call__(self, event: Event) -> ER:
-        raise NotImplementedError
+    async def __call__(self, event: Event) -> ER: ...

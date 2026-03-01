@@ -5,5 +5,4 @@ from .command import Command
 
 class CommandHandler[CR](ABC):
     @abstractmethod
-    async def __call__(self, command: Command) -> CR:
-        raise NotImplementedError
+    async def __call__(self, command: Command) -> CR: ...
