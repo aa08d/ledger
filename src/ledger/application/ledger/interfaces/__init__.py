@@ -1,6 +1,8 @@
-from .persistence import Outbox
+from .persistence import Outbox, LedgerReader, LedgerFilters
 
 
 __all__ = (
+    "LedgerFilters",
+    "LedgerReader",
     "Outbox",
 )
