@@ -1,3 +1,5 @@
+import logging
+
 from dataclasses import dataclass
 from uuid import UUID
 
@@ -7,6 +9,9 @@ from ledger.application.common.interfaces import Mediator, UnitOfWork
 from ledger.application.ledger.interfaces import Outbox
 from ledger.domain.ledger.value_objects import LedgerID
 from ledger.application.ledger.exceptions import LedgerNotFoundException
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -42,3 +47,5 @@ class ConfirmLedgerHandler(CommandHandler[None]):
         await self._mediator.publish(events)
         await self._outbox.append(events)
         await self._uow.commit()
+
+        logger.info("Ledger confirmed", extra={"ledger_id": ledger.id.value, "ledger": ledger})

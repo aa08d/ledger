@@ -1,3 +1,5 @@
+import logging
+
 from dataclasses import dataclass
 from uuid import UUID
 
@@ -5,6 +7,9 @@ from ledger.application.common.queries import Query, QueryHandler
 from ledger.application.ledger.dto import LedgerDTO
 from ledger.application.ledger.interfaces import LedgerReader
 from ledger.application.ledger.exceptions import LedgerNotFoundException
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -21,5 +26,7 @@ class GetLedgersByIDHandler(QueryHandler[LedgerDTO]):
 
         if ledger is None:
             raise LedgerNotFoundException(query.ledger_id)
+
+        logger.debug("Get ledger by ID", extra={"ledger_id": query.ledger_id, "ledger": ledger})
 
         return ledger

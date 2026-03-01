@@ -1,3 +1,5 @@
+import logging
+
 from dataclasses import dataclass
 from uuid import UUID
 
@@ -14,6 +16,9 @@ from ledger.domain.ledger.value_objects import (
     CurrencyCode,
     LedgerReason,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -54,5 +59,7 @@ class CreateLedgerHandler(CommandHandler[UUID]):
         await self._mediator.publish(events)
         await self._outbox.append(events)
         await self._uow.commit()
+
+        logger.info("Ledger created", extra={"ledger_id": ledger.id.value, "ledger": ledger})
 
         return ledger.id.value
