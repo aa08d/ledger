@@ -10,5 +10,5 @@ class LedgerRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def save(self, ledger: Ledger) -> Ledger | None:
+    async def save(self, ledger: Ledger) -> None:
         raise NotImplementedError

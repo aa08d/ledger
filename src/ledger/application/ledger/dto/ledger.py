@@ -15,7 +15,7 @@ class LedgerDTO(DTO):
     amount: int
     currency: CurrencyCode
     status: LedgerStatus
-    code: int
+    code: str
     details: str
 
 
