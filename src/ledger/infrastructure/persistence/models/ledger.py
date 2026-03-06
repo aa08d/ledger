@@ -15,6 +15,6 @@ ledgers_table = Table(
     Column("amount", BigInteger),
     Column("currency", Enum(CurrencyCode)),
     Column("status", Enum(LedgerStatus)),
-    Column("code", String(5)),
+    Column("code", String(2)),
     Column("details", String(255)),
 )
