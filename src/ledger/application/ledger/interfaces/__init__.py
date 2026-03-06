@@ -1,4 +1,5 @@
-from .persistence import Outbox, LedgerReader, LedgerFilters
+from .persistence import LedgerReader, LedgerFilters
+from .outbox import Outbox
 
 
 __all__ = (
