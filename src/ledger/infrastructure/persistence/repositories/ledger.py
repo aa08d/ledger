@@ -13,7 +13,7 @@ class SQLAlchemyLedgerRepository(LedgerRepository):
         ledger = await self._session.get(
             Ledger,
             ledger_id.value,
-            with_for_update=True
+            with_for_update=True,
         )
 
         return ledger
