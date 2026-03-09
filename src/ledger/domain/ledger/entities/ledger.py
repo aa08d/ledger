@@ -11,11 +11,8 @@ from ledger.domain.ledger.value_objects import (
     LedgerReason,
 )
 from ledger.domain.ledger.events import LedgerCreated, LedgerConfirmed, LedgerFailed
-from ledger.domain.ledger.exceptions import (
-    LedgerAlreadyConfirmed,
-    LedgerAlreadyFailed,
-    LedgerCannotTransition,
-)
+from ledger.domain.ledger.exceptions import LedgerCannotTransition
+
 
 
 class Ledger(Entity, AggregateRoot):
@@ -76,9 +73,6 @@ class Ledger(Entity, AggregateRoot):
         return ledger
 
     def confirm(self) -> None:
-        if self.status == LedgerStatus.CONFIRMED:
-            raise LedgerAlreadyConfirmed(ledger_id=self.id.value)
-
         if self.status != LedgerStatus.PENDING:
             raise LedgerCannotTransition(
                 ledger_id=self.id.value,
@@ -102,9 +96,6 @@ class Ledger(Entity, AggregateRoot):
         )
 
     def fail(self, reason: LedgerReason) -> None:
-        if self.status == LedgerStatus.FAILED:
-            raise LedgerAlreadyFailed(ledger_id=self.id.value)
-
         if self.status != LedgerStatus.PENDING:
             raise LedgerCannotTransition(
                 ledger_id=self.id.value,
