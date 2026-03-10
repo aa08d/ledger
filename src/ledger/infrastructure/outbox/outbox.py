@@ -1,7 +1,7 @@
 import orjson
 
 from datetime import datetime, UTC
-from dataclasses import dataclass, asdict
+from dataclasses import asdict
 from uuid import UUID
 
 from sqlalchemy import select, update
