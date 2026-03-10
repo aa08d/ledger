@@ -6,9 +6,6 @@ from ledger.application.ledger.dto import InboxMessageDTO
 
 class Inbox(ABC):
     @abstractmethod
-    async def exists(self, message_id: UUID) -> bool: ...
-
-    @abstractmethod
     async def save(self, message: InboxMessageDTO) -> None: ...
 
     @abstractmethod
