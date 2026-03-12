@@ -6,7 +6,6 @@ from uuid import UUID
 from ledger.domain.ledger.repository import LedgerRepository
 from ledger.application.common.commands import Command, CommandHandler
 from ledger.application.common.interfaces import Mediator, UnitOfWork
-from ledger.application.ledger.interfaces import Outbox
 from ledger.domain.ledger.value_objects import LedgerID
 from ledger.application.ledger.exceptions import LedgerNotFoundException
 
@@ -24,13 +23,11 @@ class ConfirmLedgerHandler(CommandHandler[None]):
         self,
         repository: LedgerRepository,
         mediator: Mediator,
-        outbox: Outbox,
         uow: UnitOfWork,
     ) -> None:
         self._repository = repository
         self._mediator = mediator
         self._uow = uow
-        self._outbox = outbox
 
     async def __call__(self, command: ConfirmLedgerCommand) -> None:
         ledger = await self._repository.acquire_by_id(
@@ -45,7 +42,6 @@ class ConfirmLedgerHandler(CommandHandler[None]):
 
         await self._repository.save(ledger)
         await self._mediator.publish(events)
-        await self._outbox.append(events)
         await self._uow.commit()
 
         logger.info("Ledger confirmed", extra={"ledger_id": ledger.id.value, "ledger": ledger})

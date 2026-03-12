@@ -6,7 +6,6 @@ from uuid import UUID
 from ledger.domain.ledger.repository import LedgerRepository
 from ledger.application.common.commands import Command, CommandHandler
 from ledger.application.common.interfaces import Mediator, UnitOfWork
-from ledger.application.ledger.interfaces import Outbox
 from ledger.domain.ledger.entities import Ledger
 from ledger.domain.ledger.value_objects import (
     WalletID,
@@ -37,7 +36,6 @@ class CreateLedgerHandler(CommandHandler[UUID]):
         self,
         repository: LedgerRepository,
         mediator: Mediator,
-        outbox: Outbox,
         uow: UnitOfWork,
     ) -> None:
         self._repository = repository
@@ -57,7 +55,6 @@ class CreateLedgerHandler(CommandHandler[UUID]):
 
         await self._repository.save(ledger)
         await self._mediator.publish(events)
-        await self._outbox.append(events)
         await self._uow.commit()
 
         logger.info("Ledger created", extra={"ledger_id": ledger.id.value, "ledger": ledger})

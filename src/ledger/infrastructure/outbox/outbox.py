@@ -1,35 +1,26 @@
-import orjson
-
 from datetime import datetime, UTC
-from dataclasses import asdict
 from uuid import UUID
+from dataclasses import dataclass, asdict
 
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ledger.application.ledger.dto import OutboxMessageDTO
-from ledger.application.ledger.interfaces import Outbox
-from ledger.domain.common.events import Event
-
-from .model import outbox_messages_table
+from .table import outbox_messages_table
+from .message import OutboxMessage
+from .interfaces import Outbox
 
 
 class SQLAlchemyOutbox(Outbox):
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
-    async def append(self, events: list[Event]) -> None:
-        if not events:
-            return
+    async def append(self, message: OutboxMessage) -> None:
+        await self._session.execute(
+            outbox_messages_table.insert(),
+            asdict(message),
+        )
 
-        rows = [
-            {"event": type(e).__name__, "payload": orjson.loads(orjson.dumps(asdict(e)))}
-            for e in events
-        ]
-
-        await self._session.execute(outbox_messages_table.insert(), rows)
-
-    async def next(self, limit: int) -> list[OutboxMessageDTO]:
+    async def next(self, limit: int) -> list[OutboxMessage]:
         stmt = (
             select(outbox_messages_table)
             .where(outbox_messages_table.c.published_at.is_(None))
@@ -40,7 +31,7 @@ class SQLAlchemyOutbox(Outbox):
         result = await self._session.execute(stmt)
         rows = result.mappings().all()
 
-        return [OutboxMessageDTO(**row) for row in rows]
+        return [OutboxMessage(**row) for row in rows]
 
     async def done(self, messages: list[UUID]) -> None:
         if not messages:

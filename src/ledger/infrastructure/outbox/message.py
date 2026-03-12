@@ -1,14 +1,13 @@
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any
 from uuid import UUID
-
-from ledger.application.common.dto import DTO
 
 
 @dataclass(frozen=True)
-class OutboxMessageDTO(DTO):
+class OutboxMessage:
     id: UUID
     event: str
-    payload: dict
+    payload: dict[str, Any]
     created_at: datetime
-    published_at: datetime | None
+    published_at: datetime | None = None
