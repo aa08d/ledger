@@ -1,6 +1,6 @@
 from datetime import datetime, UTC
 from uuid import UUID
-from dataclasses import dataclass, asdict
+from dataclasses import asdict
 
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession

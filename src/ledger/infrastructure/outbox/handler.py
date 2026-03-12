@@ -8,7 +8,7 @@ from .interfaces import Outbox
 from .message import OutboxMessage
 
 
-class OutboxHandler(EventHandler[None]):
+class OutboxEventHandler(EventHandler):
     def __init__(self, outbox: Outbox) -> None:
         self._outbox = outbox
 

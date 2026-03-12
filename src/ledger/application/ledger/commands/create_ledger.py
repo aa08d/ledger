@@ -41,7 +41,6 @@ class CreateLedgerHandler(CommandHandler[UUID]):
         self._repository = repository
         self._mediator = mediator
         self._uow = uow
-        self._outbox = outbox
 
     async def __call__(self, command: CreateLedgerCommand) -> UUID:
         ledger = Ledger.create(
