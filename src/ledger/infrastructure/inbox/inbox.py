@@ -1,13 +1,13 @@
 from datetime import datetime, UTC
+from dataclasses import asdict
 from uuid import UUID
 
 from sqlalchemy import select, insert, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ledger.application.ledger.interfaces import Inbox
-from ledger.application.ledger.dto import InboxMessageDTO
-
 from .model import inbox_messages_table
+from .interfaces import Inbox
+from .message import InboxMessage
 
 
 class SQLAlchemyInbox(Inbox):
@@ -21,13 +21,9 @@ class SQLAlchemyInbox(Inbox):
         result = await self._session.execute(stmt)
         return result.scalar() is not None
 
-    async def save(self, message: InboxMessageDTO) -> None:
+    async def save(self, message: InboxMessage) -> None:
         await self._session.execute(
-            insert(inbox_messages_table).values(
-                message_id=message.message_id,
-                event=message.event,
-                payload=message.payload,
-            )
+            insert(inbox_messages_table).values(asdict(message))
         )
 
     async def done(self, message_id: UUID) -> None:
