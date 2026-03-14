@@ -3,9 +3,11 @@ from datetime import datetime
 from typing import Any
 from uuid import UUID
 
+from ledger.application.common.dto import DTO
+
 
 @dataclass(frozen=True)
-class OutboxMessage:
+class OutboxMessage(DTO):
     id: UUID
     event: str
     payload: dict[str, Any]

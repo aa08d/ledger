@@ -1,4 +1,5 @@
 import orjson
+import re
 
 from dataclasses import asdict
 
@@ -13,9 +14,10 @@ class OutboxEventHandler(EventHandler):
         self._outbox = outbox
 
     async def __call__(self, event: Event) -> None:
+        routing_key = re.sub(r"(?<!^)(?=[A-Z])", ".", type(event).__name__).lower()
         message = OutboxMessage(
             id=event.event_id,
-            event= type(event).__name__,
+            event=routing_key,
             payload=orjson.loads(orjson.dumps(asdict(event))),
             created_at=event.event_timestamp,
         )

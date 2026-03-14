@@ -1,10 +1,10 @@
 from .config import OutboxConfig
-from .poller import OutboxPoller
+from .processor import OutboxProcessor
 from .handler import OutboxEventHandler
 
 
 __all__ = (
     "OutboxConfig",
-    "OutboxPoller",
+    "OutboxProcessor",
     "OutboxEventHandler",
 )

@@ -19,7 +19,7 @@ class Mediator(ABC):
     def register(
         self,
         message: Type[Request | Event],
-        handler: RequestHandler | EventHandler,
+        handler: Type[RequestHandler | EventHandler],
     ) -> None:
         if issubclass(message, Request):
             self._request_handlers[message] = handler

@@ -2,7 +2,7 @@ from datetime import datetime, UTC
 from uuid import UUID
 from dataclasses import asdict
 
-from sqlalchemy import select, update
+from sqlalchemy import select, update, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .table import outbox_messages_table
@@ -16,8 +16,7 @@ class SQLAlchemyOutbox(Outbox):
 
     async def append(self, message: OutboxMessage) -> None:
         await self._session.execute(
-            outbox_messages_table.insert(),
-            asdict(message),
+            insert(outbox_messages_table).values(asdict(message))
         )
 
     async def next(self, limit: int) -> list[OutboxMessage]:
@@ -33,7 +32,7 @@ class SQLAlchemyOutbox(Outbox):
 
         return [OutboxMessage(**row) for row in rows]
 
-    async def done(self, messages: list[UUID]) -> None:
+    async def mark_processed(self, messages: list[UUID]) -> None:
         if not messages:
             return
 

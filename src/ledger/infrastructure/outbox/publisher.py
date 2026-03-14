@@ -1,4 +1,3 @@
-import re
 import orjson
 import logging
 
@@ -18,7 +17,6 @@ class RabbitMQOutboxPublisher(OutboxPublisher):
 
     async def publish(self, messages: list[OutboxMessage]):
         for message in messages:
-            routing_key = re.sub(r"(?<!^)(?=[A-Z])", ".", message.event).lower()
             await self._channel.default_exchange.publish(
                 Message(
                     body=orjson.dumps(message.payload),
@@ -27,6 +25,6 @@ class RabbitMQOutboxPublisher(OutboxPublisher):
                     content_type="application/json",
                     delivery_mode=DeliveryMode.PERSISTENT,
                 ),
-                routing_key=routing_key,
+                routing_key=message.event,
             )
             logger.info(f"Published event={message.event} message_id={message.id}")
