@@ -27,4 +27,4 @@ class RabbitMQOutboxPublisher(OutboxPublisher):
                 ),
                 routing_key=message.event,
             )
-            logger.info(f"Published event={message.event} message_id={message.id}")
+            logger.info("Published event=%s message_id=%s", message.event, message.id)

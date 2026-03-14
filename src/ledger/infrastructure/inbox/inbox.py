@@ -38,7 +38,7 @@ class SQLAlchemyInbox(Inbox):
     async def mark_processed(self, message_ids: list[UUID]) -> None:
         await self._session.execute(
             update(inbox_messages_table)
-            .where(inbox_messages_table.c.message_id.in_(message_ids))
+            .where(inbox_messages_table.c.id.in_(message_ids))
             .values(processed_at=datetime.now(UTC))
         )
 

@@ -61,4 +61,4 @@ class OutboxProcessor:
         await self._outbox.mark_processed([m.id for m in messages])
         await self._uow.commit()
 
-        logger.info("OutboxPoller published %d messages", len(messages))
+        logger.info("OutboxProcessor processed %d messages", len(messages))

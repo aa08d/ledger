@@ -5,7 +5,7 @@ import re
 from dataclasses import asdict
 
 from ledger.application.common.interfaces import UnitOfWork
-from ledger.domain.common.events import Event
+from ledger.domain.common.events import Event, EventHandler
 
 from .message import InboxMessage
 from .interfaces import Inbox
@@ -14,7 +14,7 @@ from .interfaces import Inbox
 logger = logging.getLogger(__name__)
 
 
-class InboxEventHandler:
+class InboxEventHandler(EventHandler):
     def __init__(self, inbox: Inbox, uow: UnitOfWork) -> None:
         self._inbox = inbox
         self._uow = uow
