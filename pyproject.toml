@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "adaptix>=3.0.0b11",
     "aio-pika>=9.6.1",
     "alembic>=1.18.4",
     "asyncpg>=0.31.0",
